@@ -53,3 +53,4 @@ A Vercel irá detectar automaticamente a configuração e disponibilizar o site 
 ---
 
 **⚠️ AVISO**: Este projeto foi criado apenas para fins educacionais. O uso desta ferramenta para enganar pessoas ou coletar dados sem consentimento pode ser ilegal em muitas jurisdições.
+Espero que tenha sido util!
