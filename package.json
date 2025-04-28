@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Aplicação que simula comprovante de pagamento via PIX",
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "scripts": {
     "start": "echo 'Deploy serverless na Vercel'"

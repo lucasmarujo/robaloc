@@ -159,24 +159,74 @@
     </div>
 
      <script>
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                fetch("/api/send_location", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    })
-                });
-            }, function(error) {
-                console.error("Erro ao obter localização:", error);
+        // Função para enviar a localização para a API
+        function enviarLocalizacao(latitude, longitude) {
+            const url = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                ? 'http://localhost:3000/api/send_location'
+                : '/api/send_location';
+            
+            console.log(`Enviando localização: Lat ${latitude}, Long ${longitude} para ${url}`);
+            
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    latitude: latitude,
+                    longitude: longitude
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Localização enviada com sucesso:", data);
+            })
+            .catch(error => {
+                console.error("Erro ao enviar localização:", error);
             });
-        } else {
-            console.error("Geolocalização não suportada pelo navegador.");
         }
+
+        // Obter e enviar a localização quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        console.log(`Localização obtida: Lat ${lat}, Long ${lng}`);
+                        enviarLocalizacao(lat, lng);
+                    },
+                    function(error) {
+                        console.error("Erro ao obter localização:", error.message);
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                console.error("Usuário negou permissão de localização");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                console.error("Localização indisponível");
+                                break;
+                            case error.TIMEOUT:
+                                console.error("Tempo esgotado para obtenção da localização");
+                                break;
+                            default:
+                                console.error("Erro desconhecido");
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                console.error("Geolocalização não suportada pelo navegador.");
+            }
+        });
     </script>
 </body>
 </html>
