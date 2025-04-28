@@ -10,7 +10,7 @@ TELEGRAM_CHAT_ID = '2063662084'
 
 # Função para ler o arquivo HTML externo
 def get_html_content():
-    with open('index.html', 'r', encoding='utf-8') as file:
+    with open('../index.html', 'r', encoding='utf-8') as file:
         return file.read()
 
 @app.route('/')
@@ -20,7 +20,7 @@ def home():
 
 @app.route('/nu-logo.png')
 def serve_logo():
-    return send_from_directory('.', 'nu-logo.png')
+    return send_from_directory('..', 'nu-logo.png')
 
 @app.route('/send_location', methods=['POST'])
 def send_location():
