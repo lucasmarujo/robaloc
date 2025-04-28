@@ -161,7 +161,7 @@
      <script>
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                fetch("/send_location", {
+                fetch("/api/send_location", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
