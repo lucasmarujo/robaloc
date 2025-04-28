@@ -1,13 +1,10 @@
 {
   "version": 2,
-  "functions": {
-    "api/*.py": {
-      "runtime": "python3.9"
-    }
-  },
+  "builds": [
+    { "src": "api/send_location.js", "use": "@vercel/node" }
+  ],
   "routes": [
     { "src": "/api/send_location", "dest": "/api/send_location.js" },
-    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 } 
